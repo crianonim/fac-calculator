@@ -34,7 +34,6 @@ function processInput(input) {
         } else {
             currentInput += input;
         }
-        console.log(currentInput);
         updateDisplay();
 
     } else if (OPERATORS.includes(input)) {
@@ -43,30 +42,36 @@ function processInput(input) {
         } else {
             total = Number(currentInput)
         }
+        afterEquals = false;
         operation = OPERATIONS[input];
         updateDisplay(total);
         currentInput = "0";
-
-
+    } else if (input == "." && !currentInput.includes(".")) {
+        if (afterEquals) {
+            currentInput = "0";
+            afterEquals = false;
+        }
+        currentInput += ".";
+        updateDisplay();
     } else if (input == "Clear") {
         total = 0;
         operation = null;
         currentInput = "0";
+        afterEquals = false;
         updateDisplay();
-    } else if (input == "=") {
+    } else if (input == "=" && !afterEquals) {
         if (operation) {
             evaluateOperation();
-            updateDisplay(total);
-            currentInput = total + "";
-            afterEquals = true;
-        } else {
-
         }
-
+        else {
+            total = Number(currentInput);
+        }
+        currentInput = "0";
+        updateDisplay(total);
+        afterEquals = true;
     }
 }
 function evaluateOperation() {
-    console.log(total, Number(currentInput))
     total = operation(total, Number(currentInput));
     operation = null;
 }
