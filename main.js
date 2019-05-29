@@ -37,12 +37,15 @@ function processInput(input) {
         updateDisplay();
 
     } else if (OPERATORS.includes(input)) {
+        if (afterEquals){
+            currentInput=total+"";
+            afterEquals = false;
+        }
         if (operation) {
             evaluateOperation();
         } else {
             total = Number(currentInput)
         }
-        afterEquals = false;
         operation = OPERATIONS[input];
         updateDisplay(total);
         currentInput = "0";
