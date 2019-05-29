@@ -16,10 +16,19 @@ window.addEventListener("load", init);
 
 function init() {
     DISPLAY = document.getElementById("display");
-    document.querySelectorAll('main button').forEach(el => el.addEventListener("click", handleButton))
+    document.querySelectorAll('main button').forEach(el => el.addEventListener("click", handleButton));
+    document.addEventListener('keydown', handleKeyboard)
     updateDisplay();
 }
-
+function handleKeyboard(event) {
+    const exchange = { "Enter": "=", "*": "x", "Escape": "Clear" };
+    let key = event.key;
+    key = exchange[key] ? exchange[key] : key;
+    if ([...OPERATORS, ...DIGITS, "=", ".", "Clear"].includes(key)) {
+        processInput(key)
+    }
+    console.log(event.key)
+}
 function handleButton(event) {
     // console.log("BEFORE", total, operation, currentInput)
     let input = event.target.innerText;
@@ -37,8 +46,8 @@ function processInput(input) {
         updateDisplay();
 
     } else if (OPERATORS.includes(input)) {
-        if (afterEquals){
-            currentInput=total+"";
+        if (afterEquals) {
+            currentInput = total + "";
             afterEquals = false;
         }
         if (operation) {
@@ -75,12 +84,12 @@ function processInput(input) {
     }
 }
 
-function roundToPrecision(number){
-    const precision=10**6;
-    return Math.round(number*precision)/precision
+function roundToPrecision(number) {
+    const precision = 10 ** 6;
+    return Math.round(number * precision) / precision
 }
 function evaluateOperation() {
-    total = roundToPrecision( operation(total, Number(currentInput)));
+    total = roundToPrecision(operation(total, Number(currentInput)));
     operation = null;
 }
 function updateDisplay(value = currentInput) {
