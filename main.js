@@ -71,8 +71,13 @@ function processInput(input) {
         afterEquals = true;
     }
 }
+
+function roundToPrecision(number){
+    const precision=10**6;
+    return Math.round(number*precision)/precision
+}
 function evaluateOperation() {
-    total = operation(total, Number(currentInput));
+    total = roundToPrecision( operation(total, Number(currentInput)));
     operation = null;
 }
 function updateDisplay(value = currentInput) {
