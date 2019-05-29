@@ -13,3 +13,43 @@ a:link, a:visited, a:hover {
     text-decoration: none;
     color: inherit;
 }
+
+main {
+    max-width: 400px;
+    width:auto;
+    margin: 5px;
+    font-size: 2em;
+}
+#display {
+    width: 100%;
+    background-color: #bbb;
+    color:#333;
+    font-family: monospace;
+    padding: 2px;
+    text-align: right;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+#buttons {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-gap: 2px;
+    
+}
+button {
+    background-color: #bbb;
+    border: none;
+    padding: 5px;
+    font-size: inherit;
+    /* margin: 2px; */
+    min-width: 2em;
+}
+button#hover {
+    font-weight: bold;
+}
+#clear, #zero {
+    grid-column-end: span 2;
+}
+#equals {
+    grid-row-end: span 2;
+}
