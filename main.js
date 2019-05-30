@@ -6,11 +6,13 @@ const OPERATIONS = {
     "-": (a, b) => a - b,
     "x": (a, b) => a * b
 }
+const MAX_INPUT=16;
 let total = 0;
 let operation = null;
 let currentInput = "0";
 let afterEquals = false; // after '=' so 
 let DISPLAY;
+
 
 window.addEventListener("load", init);
 
@@ -41,7 +43,9 @@ function processInput(input) {
             currentInput = input;
             afterEquals = false;
         } else {
-            currentInput += input;
+            if (currentInput.length<MAX_INPUT){
+                currentInput += input;
+            }
         }
         updateDisplay();
 
