@@ -97,10 +97,12 @@ function roundToPrecision(number) {
     const precision = 10 ** 6;
     return Math.round(number * precision) / precision
 }
+
 function evaluateOperation() {
     total = roundToPrecision(operation(total, Number(currentInput)));
     operation = null;
 }
+
 function updateDisplay(value = currentInput) {
     DISPLAY.innerText = value + "";
 }
@@ -109,7 +111,7 @@ function run_tests(){
     const tests=[
         ["10/-2=",-5],
         ["10+5/3=-3=",2],
-        ["//=",0],
+        ["//=",NaN],
         ["-3x-3x-3=",-27]
     ]
     let failedCount=tests.length-tests.filter(test=>test_input(...test)).length;
@@ -122,7 +124,7 @@ function run_tests(){
 function test_input(inputString,expected){
     processInput("Clear");
     inputString.split('').forEach(processInput);
-    let success=expected==total
+    let success= (expected+"")==(total+""); // so that NaN will equal to itself
     console.log(inputString,", expected: ",expected,success?' OK ':(' FAIL, got: '+total));
     processInput("Clear");
     return success;
