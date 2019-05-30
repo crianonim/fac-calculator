@@ -24,10 +24,10 @@ function init() {
     run_tests();
 }
 function handleKeyboard(event) {
-    const exchange = { "Enter": "=", "*": "x", "Escape": "Clear", "Delete": "DEL" };
+    const exchange = { "Enter": "=", "*": "x", "Escape": "C", "Delete": "DEL" };
     let key = event.key;
     key = exchange[key] ? exchange[key] : key;
-    if ([...OPERATORS, ...DIGITS, "=", ".", "Clear","DEL"].includes(key)) {
+    if ([...OPERATORS, ...DIGITS, "=", ".", "C","DEL"].includes(key)) {
         processInput(key)
     }
     console.log(event.key,key)
@@ -74,7 +74,7 @@ function processInput(input) {
         }
         currentInput += ".";
         updateDisplay();
-    } else if (input == "Clear") {
+    } else if (input == "C") {
         total = 0;
         operation = null;
         currentInput = "0";
@@ -130,12 +130,12 @@ function run_tests(){
 }
 
 function test_input(inputString, expected) {
-    processInput("Clear");
+    processInput("C");
 
     inputString.split(' ').forEach(processInput);
     let success= (expected+"")==(total+""); // so that NaN will equal to itself
     console.log(inputString,", expected: ",expected,success?' OK ':(' FAIL, got: '+total));
 
-    processInput("Clear");
+    processInput("C");
     return success;
 }
