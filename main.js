@@ -125,7 +125,15 @@ function evaluateOperation() {
 }
 
 function updateDisplay(value = currentInput) {
-    DISPLAY.innerText = value + "";
+    let str=value+"";
+    let number=Number(value);
+    if (str.length>MAX_INPUT-1){
+        str=number.toPrecision(MAX_INPUT);
+        if (str.length>MAX_INPUT-1){ // if e+24 etc.
+            str=number.toPrecision(MAX_INPUT-6);
+        }
+    }
+    DISPLAY.innerText = str;
 }
 
 
