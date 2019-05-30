@@ -12,7 +12,7 @@ let operation = null;
 let currentInput = "0";
 let afterEquals = false; // after '=' so 
 let DISPLAY;
-let buttons={};
+let buttons = {};
 
 window.addEventListener("load", init);
 
@@ -24,32 +24,34 @@ function init() {
     updateDisplay();
     run_tests();
 }
-function buttonElementsDictionary(){
-    document.querySelectorAll('#buttons button').forEach(elem=>{
-        buttons[elem.textContent]=elem;
+function buttonElementsDictionary() {
+    document.querySelectorAll('#buttons button').forEach(elem => {
+        buttons[elem.textContent] = elem;
+        elem.addEventListener("transitionend", (event => {
+            event.target.classList.remove("pressed");
+        }))
+        elem.addEventListener("transitioncancel", (event => {
+            event.target.classList.remove("pressed");
+        }));
     })
 }
 function handleKeyboard(event) {
-    const exchange = { "Enter": "=", "*": "x", "Escape": "C", "Delete": "DEL" };
+    const exchange = { "Enter": "=", "*": "x", "Escape": "C", "Delete": "DEL","Backspace":"DEL" };
     let key = event.key;
     key = exchange[key] ? exchange[key] : key;
-    if ([...OPERATORS, ...DIGITS, "=", ".", "C","DEL"].includes(key)) {
+    if ([...OPERATORS, ...DIGITS, "=", ".", "C", "DEL"].includes(key)) {
         processInput(key)
     }
-    console.log(event.key,key)
 }
 function handleButton(event) {
     let input = event.target.innerText;
     processInput(input);
 }
-function animateButton(input){
-    console.log(input);
-    elem=buttons[input]
+function animateButton(input) {
+    elem = buttons[input]
     elem.classList.add("pressed");
-    elem.addEventListener("transitionend",(event=>{
-        event.target.classList.remove("pressed");
-    }),true)
 }
+
 function processInput(input) {
     animateButton(input);
     if (DIGITS.includes(input)) {
@@ -125,24 +127,24 @@ function evaluateOperation() {
 }
 
 function updateDisplay(value = currentInput) {
-    let str=value+"";
-    let number=Number(value);
-    if (str.length>MAX_INPUT-1){
-        str=number.toPrecision(MAX_INPUT);
-        if (str.length>MAX_INPUT-1){ // if e+24 etc.
-            str=number.toPrecision(MAX_INPUT-6);
+    let str = value + "";
+    let number = Number(value);
+    if (str.length > MAX_INPUT - 1) {
+        str = number.toPrecision(MAX_INPUT);
+        if (str.length > MAX_INPUT - 1) { // if e+24 etc.
+            str = number.toPrecision(MAX_INPUT - 6);
         }
     }
     DISPLAY.innerText = str;
 }
 
 
-function run_tests(){
-    const tests=[
-        ["1 0 / - 2 =",-5],
-        ["1 0 + 5 / 3 = - 3 =",2],
-        ["/ / =",NaN],
-        ["- 3 x - 3 x - 3 =",-27]
+function run_tests() {
+    const tests = [
+        ["1 0 / - 2 =", -5],
+        ["1 0 + 5 / 3 = - 3 =", 2],
+        ["/ / =", NaN],
+        ["- 3 x - 3 x - 3 =", -27]
     ]
     let failedCount = tests.length - tests.filter(test => test_input(...test)).length;
     if (failedCount) {
@@ -155,8 +157,8 @@ function test_input(inputString, expected) {
     processInput("C");
 
     inputString.split(' ').forEach(processInput);
-    let success= (expected+"")==(total+""); // so that NaN will equal to itself
-    console.log(inputString,", expected: ",expected,success?' OK ':(' FAIL, got: '+total));
+    let success = (expected + "") == (total + ""); // so that NaN will equal to itself
+    console.log(inputString, ", expected: ", expected, success ? ' OK ' : (' FAIL, got: ' + total));
 
     processInput("C");
     return success;
