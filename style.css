@@ -13,11 +13,19 @@ a:link, a:visited, a:hover {
     text-decoration: none;
     color: inherit;
 }
+body{
+    user-select: none;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 
+}
 main {
     max-width: 400px;
-    width:auto;
-    margin: 5px;
+    padding: 5px;    
+    width:100%;
     font-size: 2em;
 }
 #display {
@@ -44,6 +52,9 @@ button {
     font-size: inherit;
     /* margin: 2px; */
     min-width: 2em;
+}
+button:focus {
+    outline: none;
 }
 button#hover {
     font-weight: bold;
