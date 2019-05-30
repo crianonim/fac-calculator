@@ -6,7 +6,7 @@ const OPERATIONS = {
     "-": (a, b) => a - b,
     "x": (a, b) => a * b
 }
-const MAX_INPUT=16;
+const MAX_INPUT = 16;
 let total = 0;
 let operation = null;
 let currentInput = "0";
@@ -21,6 +21,7 @@ function init() {
     document.querySelectorAll('main button').forEach(el => el.addEventListener("click", handleButton));
     document.addEventListener('keydown', handleKeyboard)
     updateDisplay();
+    run_tests();
 }
 function handleKeyboard(event) {
     const exchange = { "Enter": "=", "*": "x", "Escape": "Clear" };
@@ -32,7 +33,6 @@ function handleKeyboard(event) {
     console.log(event.key)
 }
 function handleButton(event) {
-    // console.log("BEFORE", total, operation, currentInput)
     let input = event.target.innerText;
     processInput(input);
 }
@@ -43,7 +43,7 @@ function processInput(input) {
             currentInput = input;
             afterEquals = false;
         } else {
-            if (currentInput.length<MAX_INPUT){
+            if (currentInput.length < MAX_INPUT) {
                 currentInput += input;
             }
         }
@@ -54,9 +54,8 @@ function processInput(input) {
             currentInput = total + "";
             afterEquals = false;
         }
-        if (input=="-" && currentInput=="0"){
-            console.log("Minus");
-            currentInput="-";
+        if (input == "-" && currentInput == "0") {
+            currentInput = "-";
             updateDisplay("-");
             return
         }
@@ -104,4 +103,27 @@ function evaluateOperation() {
 }
 function updateDisplay(value = currentInput) {
     DISPLAY.innerText = value + "";
+}
+
+function run_tests(){
+    const tests=[
+        ["10/-2=",-5],
+        ["10+5/3=-3=",2],
+        ["//=",0],
+        ["-3x-3x-3=",-27]
+    ]
+    let failedCount=tests.length-tests.filter(test=>test_input(...test)).length;
+    if (failedCount) {
+        console.error(`${failedCount} TESTS FAILED!!!`);
+    }
+    return !failedCount;
+}
+
+function test_input(inputString,expected){
+    processInput("Clear");
+    inputString.split('').forEach(processInput);
+    let success=expected==total
+    console.log(inputString,", expected: ",expected,success?' OK ':(' FAIL, got: '+total));
+    processInput("Clear");
+    return success;
 }
