@@ -24,13 +24,13 @@ function init() {
     run_tests();
 }
 function handleKeyboard(event) {
-    const exchange = { "Enter": "=", "*": "x", "Escape": "Clear" };
+    const exchange = { "Enter": "=", "*": "x", "Escape": "Clear", "Delete": "DEL" };
     let key = event.key;
     key = exchange[key] ? exchange[key] : key;
-    if ([...OPERATORS, ...DIGITS, "=", ".", "Clear"].includes(key)) {
+    if ([...OPERATORS, ...DIGITS, "=", ".", "Clear","DEL"].includes(key)) {
         processInput(key)
     }
-    console.log(event.key)
+    console.log(event.key,key)
 }
 function handleButton(event) {
     let input = event.target.innerText;
@@ -80,6 +80,13 @@ function processInput(input) {
         currentInput = "0";
         afterEquals = false;
         updateDisplay();
+    } else if (input == "DEL") {
+        if (currentInput.length == 1) {
+            currentInput = "0";
+        } else {
+            currentInput = currentInput.substr(0, currentInput.length - 1);
+        }
+        updateDisplay()
     } else if (input == "=" && !afterEquals) {
         if (operation) {
             evaluateOperation();
@@ -107,6 +114,7 @@ function updateDisplay(value = currentInput) {
     DISPLAY.innerText = value + "";
 }
 
+
 function run_tests(){
     const tests=[
         ["1 0 / - 2 =",-5],
@@ -114,18 +122,20 @@ function run_tests(){
         ["/ / =",NaN],
         ["- 3 x - 3 x - 3 =",-27]
     ]
-    let failedCount=tests.length-tests.filter(test=>test_input(...test)).length;
+    let failedCount = tests.length - tests.filter(test => test_input(...test)).length;
     if (failedCount) {
         console.error(`${failedCount} TESTS FAILED!!!`);
     }
     return !failedCount;
 }
 
-function test_input(inputString,expected){
+function test_input(inputString, expected) {
     processInput("Clear");
+
     inputString.split(' ').forEach(processInput);
     let success= (expected+"")==(total+""); // so that NaN will equal to itself
     console.log(inputString,", expected: ",expected,success?' OK ':(' FAIL, got: '+total));
+
     processInput("Clear");
     return success;
 }
