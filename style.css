@@ -29,7 +29,7 @@ main {
     text-align: right;
     box-sizing: border-box;
     margin-bottom: 10px;
-    font-size: 1em;
+    font-size: 1.5em;
 }
 #buttons {
     display: grid;
