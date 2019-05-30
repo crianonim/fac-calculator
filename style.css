@@ -59,7 +59,7 @@ button:focus {
 button#hover {
     font-weight: bold;
 }
-#clear, #zero {
+ #zero {
     grid-column-end: span 2;
 }
 #equals {

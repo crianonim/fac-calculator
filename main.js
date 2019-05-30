@@ -80,6 +80,13 @@ function processInput(input) {
         currentInput = "0";
         afterEquals = false;
         updateDisplay();
+    } else if (input=="DEL") {
+        if (currentInput.length==1) { 
+            currentInput="0";
+        } else {
+            currentInput=currentInput.substr(0,currentInput.length-1);
+        }
+        updateDisplay()
     } else if (input == "=" && !afterEquals) {
         if (operation) {
             evaluateOperation();
