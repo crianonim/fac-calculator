@@ -30,10 +30,12 @@ main {
 }
 #display {
     width: 100%;
-    background-color: #bbb;
-    color:#333;
+    /* background-color: #bbb; */
+    /* color:#333; */
+    border-radius: 0.5em;
+    border: 1px solid black;
     font-family: monospace;
-    padding: 2px;
+    padding: 5px;
     text-align: right;
     box-sizing: border-box;
     margin-bottom: 10px;
@@ -42,22 +44,33 @@ main {
 #buttons {
     display: grid;
     grid-template-columns: repeat(4,1fr);
-    grid-gap: 2px;
+    grid-gap: 5px;
     
 }
 button {
-    background-color: #bbb;
-    border: none;
+    background-color:white;
+    border-radius: 1em;
+    border: 1px solid black;
     padding: 5px;
     font-size: inherit;
     /* margin: 2px; */
     min-width: 2em;
+    box-shadow: black 3px 3px;
+    transform: translate(0, 0);
+    transition:0.1s transform;
+}
+button.pressed {
+    box-shadow: none;
+    transform: translate(3px, 3px);
 }
 button:focus {
     outline: none;
 }
-button#hover {
+button:hover ,button.pressed {
+    background-color:black;
+    color: white;
     font-weight: bold;
+    border-color: white;
 }
  #zero {
     grid-column-end: span 2;

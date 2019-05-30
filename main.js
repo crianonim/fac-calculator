@@ -12,16 +12,22 @@ let operation = null;
 let currentInput = "0";
 let afterEquals = false; // after '=' so 
 let DISPLAY;
-
+let buttons={};
 
 window.addEventListener("load", init);
 
 function init() {
     DISPLAY = document.getElementById("display");
-    document.querySelectorAll('main button').forEach(el => el.addEventListener("click", handleButton));
-    document.addEventListener('keydown', handleKeyboard)
+    document.querySelectorAll('#buttons button').forEach(el => el.addEventListener("click", handleButton));
+    document.addEventListener('keydown', handleKeyboard);
+    buttonElementsDictionary();
     updateDisplay();
     run_tests();
+}
+function buttonElementsDictionary(){
+    document.querySelectorAll('#buttons button').forEach(elem=>{
+        buttons[elem.textContent]=elem;
+    })
 }
 function handleKeyboard(event) {
     const exchange = { "Enter": "=", "*": "x", "Escape": "C", "Delete": "DEL" };
@@ -36,8 +42,16 @@ function handleButton(event) {
     let input = event.target.innerText;
     processInput(input);
 }
-
+function animateButton(input){
+    console.log(input);
+    elem=buttons[input]
+    elem.classList.add("pressed");
+    elem.addEventListener("transitionend",(event=>{
+        event.target.classList.remove("pressed");
+    }),true)
+}
 function processInput(input) {
+    animateButton(input);
     if (DIGITS.includes(input)) {
         if (currentInput == "0" || afterEquals) {
             currentInput = input;
