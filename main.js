@@ -54,6 +54,12 @@ function processInput(input) {
             currentInput = total + "";
             afterEquals = false;
         }
+        if (input=="-" && currentInput=="0"){
+            console.log("Minus");
+            currentInput="-";
+            updateDisplay("-");
+            return
+        }
         if (operation) {
             evaluateOperation();
         } else {
