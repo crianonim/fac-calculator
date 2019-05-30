@@ -114,12 +114,13 @@ function updateDisplay(value = currentInput) {
     DISPLAY.innerText = value + "";
 }
 
-function run_tests() {
-    const tests = [
-        ["10/-2=", -5],
-        ["10+5/3=-3=", 2],
-        ["//=", NaN],
-        ["-3x-3x-3=", -27]
+
+function run_tests(){
+    const tests=[
+        ["1 0 / - 2 =",-5],
+        ["1 0 + 5 / 3 = - 3 =",2],
+        ["/ / =",NaN],
+        ["- 3 x - 3 x - 3 =",-27]
     ]
     let failedCount = tests.length - tests.filter(test => test_input(...test)).length;
     if (failedCount) {
@@ -130,9 +131,11 @@ function run_tests() {
 
 function test_input(inputString, expected) {
     processInput("Clear");
-    inputString.split('').forEach(processInput);
-    let success = (expected + "") == (total + ""); // so that NaN will equal to itself
-    console.log(inputString, ", expected: ", expected, success ? ' OK ' : (' FAIL, got: ' + total));
+
+    inputString.split(' ').forEach(processInput);
+    let success= (expected+"")==(total+""); // so that NaN will equal to itself
+    console.log(inputString,", expected: ",expected,success?' OK ':(' FAIL, got: '+total));
+
     processInput("Clear");
     return success;
 }
