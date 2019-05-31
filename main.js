@@ -9,11 +9,12 @@ const OPERATIONS = {
 const MAX_INPUT = 16;
 let total = 0;
 let operation = null;
+let lastOperation = null;
 let currentInput = "0";
 let afterEquals = false; // after '=' so 
 let DISPLAY;
 let buttons = {};
-
+  
 window.addEventListener("load", init);
 
 function init() {
@@ -36,7 +37,7 @@ function buttonElementsDictionary() {
     })
 }
 function handleKeyboard(event) {
-    const exchange = { "Enter": "=", "*": "x", "Escape": "C", "Delete": "DEL","Backspace":"DEL" };
+    const exchange = { "Enter": "=", "*": "x", "Escape": "C", "Delete": "DEL", "Backspace": "DEL" };
     let key = event.key;
     key = exchange[key] ? exchange[key] : key;
     if ([...OPERATORS, ...DIGITS, "=", ".", "C", "DEL"].includes(key)) {
@@ -95,6 +96,7 @@ function processInput(input) {
         operation = null;
         currentInput = "0";
         afterEquals = false;
+        lastOperation = null;
         updateDisplay();
     } else if (input == "DEL") {
         if (currentInput.length == 1) {
@@ -103,16 +105,21 @@ function processInput(input) {
             currentInput = currentInput.substr(0, currentInput.length - 1);
         }
         updateDisplay()
-    } else if (input == "=" && !afterEquals) {
-        if (operation) {
-            evaluateOperation();
+    } else if (input == "=") {
+        if (!afterEquals) {
+            if (operation) {
+                evaluateOperation();
+            }
+            else {
+                total = Number(currentInput);
+            }
+            currentInput = "0";
+            updateDisplay(total);
+            afterEquals = true;
+        } else if (lastOperation) {
+            total = lastOperation();
+            updateDisplay(total);
         }
-        else {
-            total = Number(currentInput);
-        }
-        currentInput = "0";
-        updateDisplay(total);
-        afterEquals = true;
     }
 }
 
@@ -122,6 +129,9 @@ function roundToPrecision(number) {
 }
 
 function evaluateOperation() {
+    let operationToBeRepeated = operation;
+    let inputToBeRepeated = Number(currentInput)
+    lastOperation = () => roundToPrecision(operationToBeRepeated(total, inputToBeRepeated))
     total = roundToPrecision(operation(total, Number(currentInput)));
     operation = null;
 }
