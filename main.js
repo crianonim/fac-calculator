@@ -12,6 +12,7 @@ let operation = null;
 let lastOperation = null;
 let currentInput = "0";
 let afterEquals = false; // after '=' so 
+let noInputYet=true;
 let DISPLAY;
 let buttons = {};
   
@@ -64,9 +65,11 @@ function processInput(input) {
                 currentInput += input;
             }
         }
+        noInputYet=false;
         updateDisplay();
 
     } else if (OPERATORS.includes(input)) {
+
         if (afterEquals) {
             currentInput = total + "";
             afterEquals = false;
@@ -76,12 +79,16 @@ function processInput(input) {
             updateDisplay("-");
             return
         }
-        if (operation) {
-            evaluateOperation();
-        } else {
-            total = Number(currentInput)
+        if (!noInputYet){
+
+            if (operation) {
+                evaluateOperation();
+            } else {
+                total = Number(currentInput)
+            }
         }
         operation = OPERATIONS[input];
+        noInputYet=true;
         updateDisplay(total);
         currentInput = "0";
     } else if (input == "." && !currentInput.includes(".")) {
@@ -97,15 +104,18 @@ function processInput(input) {
         currentInput = "0";
         afterEquals = false;
         lastOperation = null;
+        noInputYet=true;
         updateDisplay();
     } else if (input == "DEL") {
         if (currentInput.length == 1) {
             currentInput = "0";
+            noInputYet=true;
         } else {
             currentInput = currentInput.substr(0, currentInput.length - 1);
         }
         updateDisplay()
     } else if (input == "=") {
+        noInputYet=true;
         if (!afterEquals) {
             if (operation) {
                 evaluateOperation();
@@ -154,7 +164,8 @@ function run_tests() {
         ["1 0 / - 2 =", -5],
         ["1 0 + 5 / 3 = - 3 =", 2],
         ["/ / =", NaN],
-        ["- 3 x - 3 x - 3 =", -27]
+        ["- 3 x - 3 x - 3 =", -27],
+        ["5 / x + 4 =", 9]
     ]
     let failedCount = tests.length - tests.filter(test => test_input(...test)).length;
     if (failedCount) {
