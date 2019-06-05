@@ -186,7 +186,10 @@ function run_tests() {
         ["1 0 + 5 / 3 = - 3 =", 2],
         ["/ / =", NaN],
         ["- 3 x - 3 x - 3 =", -27],
-        ["5 / x + 4 =", 9]
+        ["5 / x + 4 =", 9],
+        [". . . . 2 . + . . 1 =", 0.3],
+        ["DEL DEL 3 DEL . 1 + DEL . 2 =", 0.3],
+        ["1 2 C - 1 2 x / - 2 =",24 ]
     ]
     let failedCount = tests.length - tests.filter(test => test_input(...test)).length;
     if (failedCount) {
