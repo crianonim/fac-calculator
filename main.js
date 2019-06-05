@@ -12,10 +12,10 @@ let operation = null;
 let lastOperation = null;
 let currentInput = "0";
 let afterEquals = false; // after '=' so 
-let noInputYet=true;
+let noInputYet = true;
 let DISPLAY;
 let buttons = {};
-  
+
 window.addEventListener("load", init);
 
 function init() {
@@ -57,81 +57,102 @@ function animateButton(input) {
 function processInput(input) {
     animateButton(input);
     if (DIGITS.includes(input)) {
-        if (currentInput == "0" || afterEquals) {
-            currentInput = input;
-            afterEquals = false;
-        } else {
-            if (currentInput.length < MAX_INPUT) {
-                currentInput += input;
-            }
-        }
-        noInputYet=false;
-        updateDisplay();
-
+        processDigit(input)
     } else if (OPERATORS.includes(input)) {
-
-        if (afterEquals) {
-            currentInput = total + "";
-            afterEquals = false;
-        }
-        if (input == "-" && currentInput == "0") {
-            currentInput = "-";
-            updateDisplay("-");
-            return
-        }
-        if (!noInputYet){
-
-            if (operation) {
-                evaluateOperation();
-            } else {
-                total = Number(currentInput)
-            }
-        }
-        operation = OPERATIONS[input];
-        noInputYet=true;
-        updateDisplay(total);
-        currentInput = "0";
+        processOperator(input);
     } else if (input == "." && !currentInput.includes(".")) {
-        if (afterEquals) {
-            currentInput = "0";
-            afterEquals = false;
-        }
-        currentInput += ".";
-        updateDisplay();
+        processPeriod()
     } else if (input == "C") {
-        total = 0;
-        operation = null;
-        currentInput = "0";
-        afterEquals = false;
-        lastOperation = null;
-        noInputYet=true;
-        updateDisplay();
+        processClear();
     } else if (input == "DEL") {
-        if (currentInput.length == 1) {
-            currentInput = "0";
-            noInputYet=true;
-        } else {
-            currentInput = currentInput.substr(0, currentInput.length - 1);
-        }
-        updateDisplay()
+        processDelete();
     } else if (input == "=") {
-        noInputYet=true;
-        if (!afterEquals) {
-            if (operation) {
-                evaluateOperation();
-            }
-            else {
-                total = Number(currentInput);
-            }
-            currentInput = "0";
-            updateDisplay(total);
-            afterEquals = true;
-        } else if (lastOperation) {
-            total = lastOperation();
-            updateDisplay(total);
-        }
+        processEquals();
     }
 }
+
+function processDigit(input) {
+    if (currentInput == "0" || afterEquals) {
+        currentInput = input;
+        afterEquals = false;
+    } else {
+        if (currentInput.length < MAX_INPUT) {
+            currentInput += input;
+        }
+    }
+    noInputYet = false;
+    updateDisplay();
+}
+
+function processOperator(input) {
+
+    if (afterEquals) {
+        currentInput = total + "";
+        afterEquals = false;
+    }
+    if (input == "-" && currentInput == "0") {
+        currentInput = "-";
+        updateDisplay("-");
+        return
+    }
+    if (!noInputYet) {
+
+        if (operation) {
+            evaluateOperation();
+        } else {
+            total = Number(currentInput)
+        }
+    }
+    operation = OPERATIONS[input];
+    noInputYet = true;
+    updateDisplay(total);
+    currentInput = "0";
+}
+function processPeriod() {
+    if (afterEquals) {
+        currentInput = "0";
+        afterEquals = false;
+    }
+    currentInput += ".";
+    updateDisplay();
+}
+function processClear() {
+    total = 0;
+    operation = null;
+    currentInput = "0";
+    afterEquals = false;
+    lastOperation = null;
+    noInputYet = true;
+    updateDisplay();
+}
+function processDelete() {
+    if (currentInput.length == 1) {
+        currentInput = "0";
+        noInputYet = true;
+    } else {
+        currentInput = currentInput.substr(0, currentInput.length - 1);
+    }
+    updateDisplay();
+}
+
+function processEquals() {
+    noInputYet = true;
+    if (!afterEquals) {
+        if (operation) {
+            evaluateOperation();
+        }
+        else {
+            total = Number(currentInput);
+        }
+        currentInput = "0";
+        updateDisplay(total);
+        afterEquals = true;
+    } else if (lastOperation) {
+        total = lastOperation();
+        updateDisplay(total);
+    }
+}
+
 
 function roundToPrecision(number) {
     const precision = 10 ** 6;
