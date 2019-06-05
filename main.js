@@ -6,13 +6,19 @@ const OPERATIONS = {
     "-": (a, b) => a - b,
     "x": (a, b) => a * b
 }
+
+// config
 const MAX_INPUT = 16;
+
+// state
 let total = 0;
 let operation = null;
 let lastOperation = null;
 let currentInput = "0";
 let afterEquals = false; // after '=' so 
 let noInputYet = true;
+
+// elements cache
 let DISPLAY;
 let buttons = {};
 
@@ -26,6 +32,8 @@ function init() {
     updateDisplay();
     run_tests();
 }
+
+// caches all the button elements and adds events to them
 function buttonElementsDictionary() {
     document.querySelectorAll('#buttons button').forEach(elem => {
         buttons[elem.textContent] = elem;
@@ -45,14 +53,17 @@ function handleKeyboard(event) {
         processInput(key)
     }
 }
+
 function handleButton(event) {
     let input = event.target.innerText;
     processInput(input);
 }
+
 function animateButton(input) {
     elem = buttons[input]
     elem.classList.add("pressed");
 }
+
 
 function processInput(input) {
     animateButton(input);
@@ -153,7 +164,7 @@ function processEquals() {
     }
 }
 
-
+// Floating Point is not good enough for decimals
 function roundToPrecision(number) {
     const precision = 10 ** 6;
     return Math.round(number * precision) / precision
@@ -180,6 +191,7 @@ function updateDisplay(value = currentInput) {
 }
 
 
+// TESTS
 function run_tests() {
     const tests = [
         ["1 0 / - 2 =", -5],
@@ -189,7 +201,7 @@ function run_tests() {
         ["5 / x + 4 =", 9],
         [". . . . 2 . + . . 1 =", 0.3],
         ["DEL DEL 3 DEL . 1 + DEL . 2 =", 0.3],
-        ["1 2 C - 1 2 x / - 2 =",24 ]
+        ["1 2 C - 1 2 x / - 2 =",6 ],
     ]
     let failedCount = tests.length - tests.filter(test => test_input(...test)).length;
     if (failedCount) {
@@ -198,6 +210,7 @@ function run_tests() {
     return !failedCount;
 }
 
+// Test helper function
 function test_input(inputString, expected) {
     processInput("C");
 

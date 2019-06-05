@@ -13,25 +13,25 @@ a:link, a:visited, a:hover {
     text-decoration: none;
     color: inherit;
 }
-body{
+
+body {
     user-select: none;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-
 }
+
 main {
     max-width: 400px;
-    padding: 5px;    
-    width:100%;
+    padding: 5px;
+    width: 100%;
     font-size: 2em;
 }
+
 #display {
     width: 100%;
-    /* background-color: #bbb; */
-    /* color:#333; */
     border-radius: 0.5em;
     border: 1px solid black;
     font-family: monospace;
@@ -41,41 +41,46 @@ main {
     margin-bottom: 10px;
     font-size: 1.5em;
 }
+
 #buttons {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 5px;
-    
 }
+
 button {
-    background-color:white;
+    background-color: white;
     border-radius: 1em;
     border: 1px solid black;
     padding: 5px;
     font-size: inherit;
-    /* margin: 2px; */
     min-width: 2em;
     box-shadow: black 3px 3px;
     transform: translate(0, 0);
-    transition:0.1s transform;
+    transition: 0.1s transform;
     cursor: pointer;
 }
+
 button.pressed {
     box-shadow: none;
     transform: translate(3px, 3px);
 }
+
 button:focus {
     outline: none;
 }
-button:hover ,button.pressed {
-    background-color:black;
+
+button:hover, button.pressed {
+    background-color: black;
     color: white;
     font-weight: bold;
     border-color: white;
 }
- #zero {
+
+#zero {
     grid-column-end: span 2;
 }
+
 #equals {
     grid-row-end: span 2;
 }
