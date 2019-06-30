@@ -64,7 +64,6 @@ function animateButton(input) {
     elem.classList.add("pressed");
 }
 
-
 function processInput(input) {
     animateButton(input);
     if (DIGITS.includes(input)) {
@@ -79,6 +78,9 @@ function processInput(input) {
         processDelete();
     } else if (input == "=") {
         processEquals();
+    }
+    if (currentInput == "19800606") {
+        document.querySelector('main').classList.add("rainbow");
     }
 }
 
@@ -201,7 +203,7 @@ function run_tests() {
         ["5 / x + 4 =", 9],
         [". . . . 2 . + . . 1 =", 0.3],
         ["DEL DEL 3 DEL . 1 + DEL . 2 =", 0.3],
-        ["1 2 C - 1 2 x / - 2 =",6 ],
+        ["1 2 C - 1 2 x / - 2 =", 6],
     ]
     let failedCount = tests.length - tests.filter(test => test_input(...test)).length;
     if (failedCount) {

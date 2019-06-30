@@ -30,6 +30,8 @@ main {
     font-size: 2em;
 }
 
+
+
 #display {
     width: 100%;
     border-radius: 0.5em;
@@ -40,6 +42,7 @@ main {
     box-sizing: border-box;
     margin-bottom: 10px;
     font-size: 1.5em;
+    background-color: white;
 }
 
 #buttons {
@@ -83,4 +86,8 @@ button:hover, button.pressed {
 
 #equals {
     grid-row-end: span 2;
+}
+
+.rainbow {
+    background: linear-gradient(180deg, #f00000, #f00000 16.67%, #ff8000 16.67%, #ff8000 33.33%, #ffff00 33.33%, #ffff00 50%, #007940 50%, #007940 66.67%, #4040ff 66.67%, #4040ff 83.33%, #a000c0 83.33%, #a000c0)
 }
