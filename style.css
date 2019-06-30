@@ -30,8 +30,6 @@ main {
     font-size: 2em;
 }
 
-
-
 #display {
     width: 100%;
     border-radius: 0.5em;
@@ -73,11 +71,20 @@ button:focus {
     outline: none;
 }
 
-button:hover, button.pressed {
-    background-color: black;
-    color: white;
-    font-weight: bold;
-    border-color: white;
+button.pressed {
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        border-color: white;
+}
+/* only proper mouse hover, no touch devices */
+@media(hover: hover) and (pointer: fine) {
+    button:hover {
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        border-color: white;
+    }
 }
 
 #zero {
