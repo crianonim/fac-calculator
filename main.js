@@ -17,6 +17,7 @@ let lastOperation = null;
 let currentInput = "0";
 let afterEquals = false; // after '=' so 
 let noInputYet = true;
+let animateInput = true; // can be disabled for testing
 
 // elements cache
 let DISPLAY;
@@ -65,7 +66,9 @@ function animateButton(input) {
 }
 
 function processInput(input) {
-    animateButton(input);
+    if (animateInput){
+        animateButton(input);
+    }
     if (DIGITS.includes(input)) {
         processDigit(input)
     } else if (OPERATORS.includes(input)) {
@@ -205,7 +208,9 @@ function run_tests() {
         ["DEL DEL 3 DEL . 1 + DEL . 2 =", 0.3],
         ["1 2 C - 1 2 x / - 2 =", 6],
     ]
+    animateInput=false;
     let failedCount = tests.length - tests.filter(test => test_input(...test)).length;
+    animateInput=true;
     if (failedCount) {
         console.error(`${failedCount} TESTS FAILED!!!`);
     }
