@@ -46,6 +46,8 @@ function buttonElementsDictionary() {
         }));
     })
 }
+
+//Input Events
 function handleKeyboard(event) {
     const exchange = { "Enter": "=", "*": "x", "Escape": "C", "Delete": "DEL", "Backspace": "DEL" };
     let key = event.key;
@@ -60,13 +62,9 @@ function handleButton(event) {
     processInput(input);
 }
 
-function animateButton(input) {
-    elem = buttons[input]
-    elem.classList.add("pressed");
-}
 
 function processInput(input) {
-    if (animateInput){
+    if (animateInput) {
         animateButton(input);
     }
     if (DIGITS.includes(input)) {
@@ -82,6 +80,7 @@ function processInput(input) {
     } else if (input == "=") {
         processEquals();
     }
+    //Easter Egg 
     if (currentInput == "19800606") {
         document.querySelector('main').classList.add("rainbow");
     }
@@ -183,6 +182,14 @@ function evaluateOperation() {
     operation = null;
 }
 
+// View related functions
+
+function animateButton(input) {
+    elem = buttons[input]
+    elem.classList.add("pressed");
+}
+
+
 function updateDisplay(value = currentInput) {
     let str = value + "";
     let number = Number(value);
@@ -208,9 +215,9 @@ function run_tests() {
         ["DEL DEL 3 DEL . 1 + DEL . 2 =", 0.3],
         ["1 2 C - 1 2 x / - 2 =", 6],
     ]
-    animateInput=false;
+    animateInput = false;
     let failedCount = tests.length - tests.filter(test => test_input(...test)).length;
-    animateInput=true;
+    animateInput = true;
     if (failedCount) {
         console.error(`${failedCount} TESTS FAILED!!!`);
     }
@@ -220,11 +227,9 @@ function run_tests() {
 // Test helper function
 function test_input(inputString, expected) {
     processInput("C");
-
     inputString.split(' ').forEach(processInput);
     let success = (expected + "") == (total + ""); // so that NaN will equal to itself
     console.log(inputString, ", expected: ", expected, success ? ' OK ' : (' FAIL, got: ' + total));
-
     processInput("C");
     return success;
 }
